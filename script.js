@@ -34,43 +34,16 @@ const chapters = {
 
 
 /* =========================
-   Page navigation
-   ========================= */
-
-function showChapter(chapterNumber) {
-
-    const homePage = document.getElementById("home-page");
-    const chapterPage = document.getElementById("chapter-page");
-    const chapterTitle = document.getElementById("chapter-title");
-
-    homePage.classList.add("hidden");
-    chapterPage.classList.remove("hidden");
-
-    const chapter = chapters[chapterNumber];
-
-    chapterTitle.textContent = chapter.title;
-
-    displayVideos(chapter.videos);
-}
-
-
-function showHome() {
-
-    const homePage = document.getElementById("home-page");
-    const chapterPage = document.getElementById("chapter-page");
-
-    chapterPage.classList.add("hidden");
-    homePage.classList.remove("hidden");
-}
-
-
-/* =========================
    Display video cards
    ========================= */
 
 function displayVideos(videos) {
 
     const videoGrid = document.getElementById("video-grid");
+
+    if (!videoGrid) {
+        return;
+    }
 
     videoGrid.innerHTML = "";
 
@@ -131,14 +104,38 @@ function closeVideo() {
 
 
 /* =========================
-   Close video when clicking
-   outside the player
+   Close modal by clicking
+   outside the video
    ========================= */
 
-document.getElementById("video-modal").addEventListener("click", function(event) {
+const videoModal = document.getElementById("video-modal");
 
-    if (event.target === this) {
-        closeVideo();
-    }
+if (videoModal) {
 
-});
+    videoModal.addEventListener("click", function(event) {
+
+        if (event.target === this) {
+            closeVideo();
+        }
+
+    });
+}
+
+
+/* =========================
+   Determine current chapter
+   ========================= */
+
+const currentPage = window.location.pathname;
+
+if (currentPage.endsWith("kafli1.html")) {
+    displayVideos(chapters[1].videos);
+}
+
+if (currentPage.endsWith("kafli2.html")) {
+    displayVideos(chapters[2].videos);
+}
+
+if (currentPage.endsWith("kafli3.html")) {
+    displayVideos(chapters[3].videos);
+}
