@@ -274,3 +274,9 @@ button {
         grid-template-columns: 1fr;
     }
 }
+
+/* Hide the video modal until a video is selected */
+
+.modal.hidden {
+    display: none;
+}
