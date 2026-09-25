@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Stutt stærðfræðimyndbönd úr Skala 3A</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="site-container">
+
+        <!-- Home page -->
+        <section id="home-page" class="page">
+            <h1>Stutt stærðfræðimyndbönd úr Skala 3A</h1>
+
+            <p class="intro">
+                Veldu kafla:
+            </p>
+
+            <div class="chapter-buttons">
+                <button onclick="showChapter(1)">Kafli 1</button>
+                <button onclick="showChapter(2)">Kafli 2</button>
+                <button onclick="showChapter(3)">Kafli 3</button>
+            </div>
+        </section>
+
+
+        <!-- Chapter page -->
+        <section id="chapter-page" class="page hidden">
+
+            <button class="back-button" onclick="showHome()">
+                ← Til baka
+            </button>
+
+            <h2 id="chapter-title"></h2>
+
+            <div id="video-grid" class="video-grid">
+                <!-- Video cards will be added here with JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- Video player -->
+        <div id="video-modal" class="modal hidden">
+
+            <div class="modal-content">
+
+                <button class="close-button" onclick="closeVideo()">
+                    ×
+                </button>
+
+                <div class="video-container">
+                    <iframe
+                        id="youtube-player"
+                        src=""
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
