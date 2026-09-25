@@ -20,7 +20,7 @@ button {
 }
 
 .site-container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 40px 24px;
 }
@@ -44,6 +44,7 @@ button {
    ========================= */
 
 #home-page {
+    min-height: 85vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -83,7 +84,7 @@ button {
     padding: 18px 28px;
     border: none;
     border-radius: 10px;
-    background-color: #2f5bea;
+    background-color: #235347;
     color: white;
     font-size: 1.1rem;
     font-weight: 400;
@@ -91,7 +92,7 @@ button {
 }
 
 .chapter-buttons button:hover {
-    background-color: #2449c7;
+    background-color: #1b4138;
     transform: translateY(-2px);
 }
 
@@ -101,28 +102,33 @@ button {
 
 
 /* =========================
-   Chapter page
+   Chapter pages
    ========================= */
 
+#chapter-page {
+    min-height: 90vh;
+    padding-top: 10px;
+}
+
 .back-button {
-    margin-bottom: 24px;
-    padding: 10px 16px;
+    margin: 0 0 30px;
+    padding: 8px 0;
     border: none;
-    border-radius: 8px;
     background-color: transparent;
-    color: #2f5bea;
-    font-size: 1rem;
+    color: #235347;
+    font-size: 1.15rem;
     font-weight: 400;
 }
 
 .back-button:hover {
-    background-color: #e9edff;
+    color: #1b4138;
+    text-decoration: underline;
 }
 
 #chapter-title {
-    margin: 0 0 28px;
+    margin: 0 0 32px;
     font-family: Georgia, serif;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 400;
 }
 
@@ -134,7 +140,7 @@ button {
 .video-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 28px;
 }
 
 .video-card {
@@ -147,8 +153,8 @@ button {
 }
 
 .video-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.14);
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
 }
 
 .video-card img {
@@ -160,7 +166,7 @@ button {
 
 .video-card-title {
     margin: 0;
-    padding: 14px 16px 16px;
+    padding: 16px 18px 18px;
     font-size: 1rem;
     line-height: 1.4;
     font-weight: 400;
@@ -236,7 +242,7 @@ button {
 
 
 /* =========================
-   Mobile
+   Responsive layout
    ========================= */
 
 @media (max-width: 800px) {
@@ -246,6 +252,10 @@ button {
     }
 
     #home-page h1 {
+        font-size: 2rem;
+    }
+
+    #chapter-title {
         font-size: 2rem;
     }
 }
@@ -273,9 +283,20 @@ button {
     .video-grid {
         grid-template-columns: 1fr;
     }
+
+    #chapter-title {
+        font-size: 1.8rem;
+    }
+
+    .back-button {
+        font-size: 1.1rem;
+    }
 }
 
-/* Hide the video modal until a video is selected */
+
+/* =========================
+   Hide video modal initially
+   ========================= */
 
 .modal.hidden {
     display: none;
