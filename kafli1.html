@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kafli 1 – Stutt stærðfræðimyndbönd úr Skala 3A</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="site-container">
+
+        <section id="chapter-page" class="page">
+
+            <button class="back-button" onclick="window.location.href='index.html'">
+                ← Til baka
+            </button>
+
+            <h1 id="chapter-title">Kafli 1</h1>
+
+            <div id="video-grid" class="video-grid">
+                <!-- Videos will be added by JavaScript -->
+            </div>
+
+        </section>
+
+
+        <!-- Video player -->
+
+        <div id="video-modal" class="modal hidden">
+
+            <div class="modal-content">
+
+                <button class="close-button" onclick="closeVideo()">
+                    ×
+                </button>
+
+                <div class="video-container">
+                    <iframe
+                        id="youtube-player"
+                        src=""
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
