@@ -1,69 +1,303 @@
 /* =========================
-   Video cards
+   General
    ========================= */
 
-const videoCards = document.querySelectorAll(".video-card");
+* {
+    box-sizing: border-box;
+}
 
-videoCards.forEach(card => {
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-weight: 300;
+    background-color: #f5f6f8;
+    color: #222;
+}
 
-    card.addEventListener("click", () => {
+button {
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+}
 
-        const videoId = card.dataset.videoId;
-
-        openVideo(videoId);
-
-    });
-
-});
-
-
-/* =========================
-   Open video
-   ========================= */
-
-function openVideo(videoId) {
-
-    const modal = document.getElementById("video-modal");
-    const player = document.getElementById("youtube-player");
-
-    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-
-    modal.classList.remove("hidden");
-
+.site-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
 }
 
 
 /* =========================
-   Close video
+   Pages
    ========================= */
 
-function closeVideo() {
+.page {
+    min-height: 80vh;
+}
 
-    const modal = document.getElementById("video-modal");
-    const player = document.getElementById("youtube-player");
-
-    player.src = "";
-
-    modal.classList.add("hidden");
-
+.hidden {
+    display: none;
 }
 
 
 /* =========================
-   Close video when clicking
-   outside the player
+   Home page
    ========================= */
 
-const videoModal = document.getElementById("video-modal");
+#home-page {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 
-if (videoModal) {
+#home-page h1 {
+    max-width: 800px;
+    margin: 0 0 16px;
+    font-family: Georgia, serif;
+    font-size: 2.4rem;
+    line-height: 1.2;
+    font-weight: 400;
+}
 
-    videoModal.addEventListener("click", function(event) {
+.intro {
+    margin: 0 0 32px;
+    font-size: 1.1rem;
+    color: #555;
+}
 
-        if (event.target === this) {
-            closeVideo();
-        }
 
-    });
+/* =========================
+   Chapter buttons
+   ========================= */
 
+.chapter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+.chapter-buttons button {
+    min-width: 180px;
+    padding: 18px 28px;
+    border: none;
+    border-radius: 10px;
+    background-color: #235347;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 400;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.chapter-buttons button:hover {
+    background-color: #1b4138;
+    transform: translateY(-2px);
+}
+
+.chapter-buttons button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================
+   Chapter pages
+   ========================= */
+
+#chapter-page {
+    min-height: 90vh;
+    padding-top: 10px;
+}
+
+.back-button {
+    margin: 0 0 30px;
+    padding: 8px 0;
+    border: none;
+    background-color: transparent;
+    color: #235347;
+    font-size: 1.15rem;
+    font-weight: 400;
+}
+
+.back-button:hover {
+    color: #1b4138;
+    text-decoration: underline;
+}
+
+#chapter-title {
+    margin: 0 0 32px;
+    font-family: Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+}
+
+
+/* =========================
+   Video grid
+   ========================= */
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.video-card {
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+}
+
+.video-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+.video-card-title {
+    margin: 0;
+    padding: 16px 18px 18px;
+    font-size: 1rem;
+    line-height: 1.4;
+    font-weight: 400;
+}
+
+
+/* =========================
+   Video modal
+   ========================= */
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal-content {
+    position: relative;
+    width: min(1000px, 100%);
+    background-color: black;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+}
+
+.video-container iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+
+/* =========================
+   Close button
+   ========================= */
+
+.close-button {
+    position: absolute;
+    z-index: 10;
+    top: 10px;
+    right: 10px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+
+    font-size: 1.7rem;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+
+/* =========================
+   Responsive layout
+   ========================= */
+
+@media (max-width: 800px) {
+
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #home-page h1 {
+        font-size: 2rem;
+    }
+
+    #chapter-title {
+        font-size: 2rem;
+    }
+}
+
+
+@media (max-width: 550px) {
+
+    .site-container {
+        padding: 28px 16px;
+    }
+
+    #home-page h1 {
+        font-size: 1.7rem;
+    }
+
+    .chapter-buttons {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .chapter-buttons button {
+        width: 100%;
+    }
+
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #chapter-title {
+        font-size: 1.8rem;
+    }
+
+    .back-button {
+        font-size: 1.1rem;
+    }
+}
+
+
+/* =========================
+   Hide video modal initially
+   ========================= */
+
+.modal.hidden {
+    display: none;
 }
