@@ -1,4 +1,49 @@
 /* =========================
+   Chapter navigation
+   ========================= */
+
+const TOTAL_CHAPTERS = 3;
+
+function createNavButton(label, href) {
+
+    const button = document.createElement("button");
+
+    button.textContent = label;
+    button.addEventListener("click", () => {
+        window.location.href = href;
+    });
+
+    return button;
+
+}
+
+function buildChapterNav() {
+
+    const chapterPage = document.querySelector("[data-chapter]");
+    const nav = document.getElementById("chapter-nav");
+
+    if (!chapterPage || !nav) {
+        return;
+    }
+
+    const current = Number(chapterPage.dataset.chapter);
+
+    if (current > 1) {
+        nav.appendChild(createNavButton(`Kafli ${current - 1}`, `kafli${current - 1}.html`));
+    }
+
+    nav.appendChild(createNavButton("Heim", "index.html"));
+
+    if (current < TOTAL_CHAPTERS) {
+        nav.appendChild(createNavButton(`Kafli ${current + 1}`, `kafli${current + 1}.html`));
+    }
+
+}
+
+buildChapterNav();
+
+
+/* =========================
    Video cards
    ========================= */
 

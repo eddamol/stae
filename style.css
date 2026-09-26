@@ -102,6 +102,27 @@ button {
 
 
 /* =========================
+   Chapter header
+   ========================= */
+
+.chapter-header {
+    background-color: #235347;
+    padding: 32px 24px;
+    text-align: center;
+}
+
+.site-title {
+    max-width: 800px;
+    margin: 0 auto;
+    font-family: Georgia, serif;
+    font-size: 2.4rem;
+    line-height: 1.2;
+    font-weight: 400;
+    color: white;
+}
+
+
+/* =========================
    Chapter pages
    ========================= */
 
@@ -110,19 +131,32 @@ button {
     padding-top: 10px;
 }
 
-.back-button {
-    margin: 0 0 30px;
-    padding: 8px 0;
-    border: none;
-    background-color: transparent;
-    color: #235347;
-    font-size: 1.15rem;
-    font-weight: 400;
+.chapter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 0 32px;
 }
 
-.back-button:hover {
-    color: #1b4138;
-    text-decoration: underline;
+.chapter-nav button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    background-color: #235347;
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.chapter-nav button:hover {
+    background-color: #1b4138;
+    transform: translateY(-2px);
+}
+
+.chapter-nav button:active {
+    transform: translateY(0);
 }
 
 #chapter-title {
@@ -255,6 +289,10 @@ button {
         font-size: 2rem;
     }
 
+    .site-title {
+        font-size: 2rem;
+    }
+
     #chapter-title {
         font-size: 2rem;
     }
@@ -269,6 +307,19 @@ button {
 
     #home-page h1 {
         font-size: 1.7rem;
+    }
+
+    .chapter-header {
+        padding: 24px 16px;
+    }
+
+    .site-title {
+        font-size: 1.7rem;
+    }
+
+    .chapter-nav button {
+        padding: 10px 18px;
+        font-size: 0.95rem;
     }
 
     .chapter-buttons {
@@ -286,10 +337,6 @@ button {
 
     #chapter-title {
         font-size: 1.8rem;
-    }
-
-    .back-button {
-        font-size: 1.1rem;
     }
 }
 
