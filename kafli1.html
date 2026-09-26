@@ -13,7 +13,7 @@
 <body>
 
     <header class="chapter-header">
-        <h1 class="site-title">Stutt stærðfræðimyndbönd úr Skala 3A</h1>
+        <h1 class="site-title"><a href="index.html">Stutt stærðfræðimyndbönd úr Skala 3A</a></h1>
     </header>
 
     <main class="site-container">
@@ -27,7 +27,7 @@
             <div class="video-grid">
 
                 <!-- Video 1 -->
-                <div class="video-card" data-video-id="jtGOnkXHSrM">
+                <div class="video-card" data-video-id="jtGOnkXHSrM" data-activity="activities/test/index.html">
 
                     <img
                         src="https://img.youtube.com/vi/jtGOnkXHSrM/hqdefault.jpg"
@@ -187,11 +187,31 @@
 
                 </div>
 
+                <button class="activity-button hidden" id="activity-button" onclick="showActivityView()">
+                    Örpróf
+                </button>
+
+                <div class="activity-container hidden">
+                    <button class="text-button nav-prev" onclick="showVideoView()">
+                        <span class="nav-arrow">←</span><span class="nav-label">Til baka í myndband</span>
+                    </button>
+
+                    <iframe
+                        id="activity-player"
+                        src=""
+                        title="Æfing"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
             </div>
 
         </div>
 
     </main>
+
+
+    <footer class="site-footer" id="site-footer"></footer>
 
 
     <script src="script.js"></script>
