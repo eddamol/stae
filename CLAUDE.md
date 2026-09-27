@@ -63,6 +63,13 @@ Maintain the existing visual style unless explicitly asked to change it:
   with the site title in white, matching the home page title's font
   and size, so the title appears to "move up" into a header on
   navigation
+- Every page has a `.site-logo` link (to index.html) as the first
+  element in `<body>`, absolutely positioned top-left against the page
+  so it sits in the same spot with or without a header. Pages with the
+  green header use the white `logo-stae-w.svg`; pages without one (the
+  home page) use the black `logo-stae-b.svg`. `.chapter-header` has
+  side padding so the centered title never runs under the logo
+- Favicon: `favicon-stae.svg`, linked in every page's `<head>`
 - Chapter navigation (Previous/Heim/Next) and the footer link are plain
   text in forest green, Arial, sitting directly on the page background
   (`.text-button`), not filled pill buttons — underline on hover applies
