@@ -245,8 +245,7 @@ button {
     gap: 10px;
 }
 
-.video-card[data-activity] .video-card-title::after {
-    content: "+ Örpróf";
+.quiz-badge {
     flex-shrink: 0;
     padding: 4px 10px;
     border-radius: 999px;

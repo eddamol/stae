@@ -28,7 +28,11 @@ or unnecessary libraries unless explicitly requested.
 - script.js = video/activity player, chapter navigation, footer
 - .nojekyll = disables Jekyll processing on GitHub Pages (needed for
   H5P export bundles, see below)
-- activities/ = one subfolder per embedded H5P/Lumi activity (see below)
+- activities/ = one subfolder per embedded H5P/Lumi quiz, each an
+  extracted `.h5p` (see below)
+- vendor/h5p-standalone/ = self-hosted H5P player runtime (see below)
+- update-quiz.sh = extracts/refreshes a quiz's activities/<name> folder
+  from a `.h5p` file (see below)
 
 Video content belongs in the chapter HTML files rather than
 in JavaScript data structures.
@@ -68,36 +72,68 @@ Maintain the existing visual style unless explicitly asked to change it:
 
 ## H5P / Lumi activity embeds
 
-Videos can optionally link to a self-quiz authored in Lumi Desktop and
-exported as a standalone HTML bundle (not a `.h5p` package, since there
-is no backend/server to run those on). Linking is per-video, not
-per-chapter:
+Videos can optionally link to a self-quiz authored in Lumi Desktop.
+Linking is per-video, not per-chapter. Lumi's HTML export is broken on
+Windows for content with videos/quizzes (upstream bug, both the
+all-in-one and split-file HTML formats fail) — so quizzes are shipped as
+extracted `.h5p` files, played with the vendored **h5p-standalone**
+runtime (`vendor/h5p-standalone/`, MIT licensed, self-hosted, no CDN, no
+build step — just static JS/CSS/font files from its npm `dist`).
 
-- A video that has a quiz gets a `data-activity="activities/<name>/index.html"`
-  attribute on its `.video-card` div, alongside `data-video-id`. Absent
-  on videos without a quiz. Each activity's exported bundle lives in its
-  own subfolder under `activities/`, since exports usually contain their
-  own `index.html`.
-- `.video-card[data-activity]::after` (pure CSS) shows a "+ Örpróf"
-  badge on that thumbnail — no per-video markup beyond the attribute.
-- The video modal shows an "Örpróf" button under the video whenever the
-  clicked card had `data-activity`. Clicking it swaps the modal's
-  content in place from the video iframe to the quiz iframe (never a
-  second overlay, never a new tab/page) — see `showActivityView()` /
-  `showVideoView()` in script.js. A "← Til baka í myndband" link swaps
-  back.
+**Adding or updating a quiz (the whole recipe):**
+
+1. Get the `.h5p` file from Lumi (File → Export → the `.h5p`/SCORM
+   route works fine; it's only the HTML export that's broken).
+2. Run `./update-quiz.sh <path-to-h5p-file> <name>` (`<name>` = short,
+   descriptive, e.g. `kafli1-vextir`). This extracts the zip into
+   `activities/<name>` and strips the editor-only libraries not needed
+   for playback. Safe to re-run against an existing `<name>` — e.g. after
+   editing the quiz in Lumi and re-exporting, run it again with the same
+   name and the folder's contents are replaced. Nothing else needs to
+   change: not `data-activity`, not any JS/CSS, since the site reads
+   whatever is currently in that folder.
+3. For a brand new quiz (not a re-export of an existing one), add
+   `data-activity="activities/<name>"` to that video's `.video-card` div,
+   alongside `data-video-id`.
+
+**How it renders:** the video modal has a `<div id="activity-player">`
+inside `.activity-container`. Clicking the "Örpróf" button (shown
+whenever the opened video's card has `data-activity`) calls
+`showActivityView()` in script.js, which pauses the YouTube video (via
+`postMessage`, hence `enablejsapi=1` on its embed URL in `openVideo()`),
+clears that div, and creates `new H5PPlayer(activityPlayer, {
+h5pJsonPath: <the data-activity path>, frameJs:
+'vendor/h5p-standalone/frame.bundle.js', frameCss:
+'vendor/h5p-standalone/styles/h5p.css' })` — h5p-standalone builds its
+own iframe inside that div and handles its own resizing internally, so
+there's no separate resizer script to maintain. `showVideoView()` (the
+"← Til baka í myndband" link) just clears the div's contents again.
+Swapping is in place in the same modal, never a new tab/page/overlay —
+see `openVideo()`/`closeVideo()` for how the video/activity views reset.
+
+`H5PPlayer` is `window.H5PStandalone.H5P` captured once at the top of the
+script.js activity section — **do not** reference `window.H5PStandalone`
+directly inside `showActivityView()`. h5p-standalone's own frame script
+removes/overwrites that global shortly after the first activity loads on
+a page, so looking it up again on a second activation throws; capturing
+the class reference once at load time (before that happens) is what
+makes opening a quiz, going back to the video, and reopening it — any
+number of times, without a page reload — actually work.
+
+**Other pieces:**
+- The "+ Örpróf" badge is a real `<span class="quiz-badge">` element,
+  appended by script.js next to any `.video-card-title` whose card has
+  `data-activity` — genuine DOM text (not CSS `content` or an image), so
+  browser translation features pick it up. No per-video markup beyond
+  the `data-activity` attribute.
 - While the quiz view is showing, the modal gets an `activity-mode`
   class; the backdrop-click-to-close handler checks for this and does
   nothing in that state, so an accidental outside click can't discard
   quiz progress. Only the explicit × or the back-link exit a quiz.
 - `.nojekyll` at the repo root disables Jekyll on GitHub Pages, since
-  Jekyll otherwise ignores `_`-prefixed files/folders that H5P exports
-  commonly include.
-- Not yet done: the real H5P resizer script (for activities whose
-  height varies, unlike the fixed-aspect-ratio video) should be added
-  once a real Lumi export exists to test against — its content should
-  come from that export or the H5P project directly, not be guessed.
-  Until then, `.activity-container iframe` uses a `min-height` fallback.
+  Jekyll otherwise ignores `_`-prefixed files/folders (H5P library
+  folder names like `H5P.QuestionSet-1.20` are fine, but some libraries
+  or editor assets use leading underscores).
 
 ## Code style
 

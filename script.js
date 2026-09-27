@@ -117,6 +117,16 @@ videoCards.forEach(card => {
 
     });
 
+    if (card.dataset.activity) {
+
+        const badge = document.createElement("span");
+
+        badge.className = "quiz-badge";
+        badge.textContent = "+ Örpróf";
+        card.querySelector(".video-card-title").appendChild(badge);
+
+    }
+
 });
 
 
@@ -130,7 +140,7 @@ function openVideo(videoId, activityUrl) {
     const player = document.getElementById("youtube-player");
     const activityButton = document.getElementById("activity-button");
 
-    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
 
     if (activityUrl) {
         modal.dataset.activityUrl = activityUrl;
@@ -167,12 +177,30 @@ function closeVideo() {
    Show video / activity view
    ========================= */
 
+// H5PStandalone's own frame script overwrites/removes window.H5PStandalone
+// shortly after the first activity loads, so the player class is captured
+// here (synchronously, right after main.bundle.js runs) rather than looked
+// up again on every activation.
+const H5PPlayer = window.H5PStandalone ? window.H5PStandalone.H5P : null;
+
 function showActivityView() {
 
     const modal = document.getElementById("video-modal");
     const activityPlayer = document.getElementById("activity-player");
+    const youtubePlayer = document.getElementById("youtube-player");
 
-    activityPlayer.src = modal.dataset.activityUrl;
+    youtubePlayer.contentWindow.postMessage(
+        '{"event":"command","func":"pauseVideo","args":""}',
+        "*"
+    );
+
+    activityPlayer.innerHTML = "";
+
+    new H5PPlayer(activityPlayer, {
+        h5pJsonPath: modal.dataset.activityUrl,
+        frameJs: "vendor/h5p-standalone/frame.bundle.js",
+        frameCss: "vendor/h5p-standalone/styles/h5p.css"
+    });
 
     document.querySelector(".video-container").classList.add("hidden");
     document.getElementById("activity-button").classList.add("hidden");
@@ -187,7 +215,7 @@ function showVideoView() {
     const modal = document.getElementById("video-modal");
     const activityPlayer = document.getElementById("activity-player");
 
-    activityPlayer.src = "";
+    activityPlayer.innerHTML = "";
 
     document.querySelector(".activity-container").classList.add("hidden");
     document.querySelector(".video-container").classList.remove("hidden");
